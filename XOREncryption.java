@@ -6,17 +6,19 @@ public class XOREncryption
 {
   public static void main(String [] args) throws Exception
   {
-    final int segLength = 32;
-    int pieceNum = 0;
-    int endIndex;
-    boolean trigger = false;
+
     String codebook = new BigInteger("audrey ".getBytes()).toString(2);
+    final int segLength = codebook.length();
+    int piecesUsed  = 0;
+    int startIndex = 0;
+    int endIndex  = codebook.length() - 1;
 
     String message;
-    String binaryMessage;
+    String binMessage;
     String binMessageSeg;
-    String encryptedMessage = "";
-    String binaryEncryptedMessage;
+   // String encryptedMessage = "";
+    String binEncryptedMessage = "";
+
 
 
   //STEP 1
@@ -28,18 +30,33 @@ public class XOREncryption
     message = inFromUser.readLine();
 
   //STEP 2.
-    binaryMessage = new BigInteger(message.getBytes()).toString(2);
+    binMessage = new BigInteger(message.getBytes()).toString(2);
     //System.out.println(binaryMessage);
 
   //STEP 3
-        //May need some help with indexing
-        //need to account for end case in loop variable
-    //LOOP WHILE THERE IS STILL PORTIONS OF THE MESSAGE NEEDING ENCRYPTING
-    while(trigger != true)
+    while(binMessage.length() - 1 > endIndex)
     {
-      if(message.length() < segLength)
+      binMessageSeg = binMessage.substring(startIndex, endIndex);
+
+       for(int i = 0; i<binMessageSeg.length(); i++)
       {
-      //  System.out.println("into if");
+        if(codebook.charAt(i) == binMessageSeg.charAt(i))
+        {
+          binEncryptedMessage = binEncryptedMessage + '0';
+        }
+        else
+        {
+          binEncryptedMessage = binEncryptedMessage + '1';
+        }
+      }//for
+
+      //Update Indexes to move to next section of binMessage
+      startIndex = endIndex + 1;
+      endIndex = startIndex + segLength - 1;
+      piecesUsed++;
+
+      /*if(message.length() < segLength)
+      {
         endIndex = message.length() - 1;
         trigger = true;
 
@@ -50,28 +67,35 @@ public class XOREncryption
       }
     //System.out.println("out of if");
 
-      binMessageSeg = binaryMessage.substring(0, endIndex);
+      binMessageSeg = binaryMessage.substring(startIndex, endIndex);
       if(trigger != true)
       {
         message = message.substring(segLength - 1);
       }
       System.out.println(binMessageSeg);
+*/
+    }//while
 
+    endIndex = binMessage.length() - 1;
 
-    //STEP 4
-      for(int i = 0; i<binMessageSeg.length(); i++)
+    binMessageSeg = binMessage.substring(startIndex, endIndex);
+
+       for(int i = 0; i<binMessageSeg.length(); i++)
       {
         if(codebook.charAt(i) == binMessageSeg.charAt(i))
         {
-          encryptedMessage = encryptedMessage + '0';
+          binEncryptedMessage = binEncryptedMessage + '0';
         }
         else
         {
-          encryptedMessage = encryptedMessage + '1';
+          binEncryptedMessage = binEncryptedMessage + '1';
         }
       }//for
-    }//while
-  System.out.println("Binary Message: " + binaryMessage);
+
+  //STEP 7
+  String encryptedMessage = new String(new BigInteger(binEncryptedMessage, 2).toByteArray());
+
+  System.out.println("Binary Encrypted Message: " + binEncryptedMessage);
   System.out.println("Encrypted Message: " + encryptedMessage);
 
   }//main
