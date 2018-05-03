@@ -1,0 +1,17 @@
+We're going to take segments of the message, turn them into bits, perform XOR encryption on the segment, and store it in a(n) data storage structure. We're going to repeat this process until the entire message has gone through this process. Then we're going to turn the encoded bits back into ASCCI symbols and print to terminal. We'll then reverse the process and print to show that it works. 
+
+STEP 1: Read in message from user using Scanner/BufferedReader and Print to terminal
+
+STEP 2: Translate the entire message into bits 
+
+STEP 3: Segment off a codebook sized piece. 
+
+STEP 4: Encode message piece using for loop and XOR encryption system. 
+
+STEP 5: Save the message piece into an "encrypted message" string and replace the message piece with the next message piece
+
+STEP 6: Repeat steps 3 - 5 until the entire uncoded message has been encrypted.
+
+STEP 7: Translate bitcode into ASCCI characters and print encoded message
+
+STEP 8: Reverse the process and print
