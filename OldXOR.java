@@ -29,11 +29,6 @@ public class OldXOR
   //STEP 2: TRANSLATE INTO BYTES
     binMessage = new BigInteger(message.getBytes()).toString(2);
 
-    /*if(codebook.length()-1 > binMessage.length() -1 )
-    {
-      endIndex = binMessage.length() - 1;
-    }*/
-
   //STEP 3: SEGMENT OFF CODEBOOK SIZED PIECE
     while(binMessage.length() - 1 > endIndex)
     {
