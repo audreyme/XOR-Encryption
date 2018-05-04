@@ -19,31 +19,28 @@ public class OldXOR
    // String encryptedMessage = "";
     String binEncryptedMessage = "";
 
-
-
   //STEP 1
     BufferedReader inFromUser =
       new BufferedReader(new InputStreamReader(System.in));
 
     System.out.println("Please enter your message here: ");
-
     message = inFromUser.readLine();
 
   //STEP 2: TRANSLATE INTO BYTES
     binMessage = new BigInteger(message.getBytes()).toString(2);
-    //System.out.println(binaryMessage);
 
-    if(codebook.length()-1 > binMessage.length() -1 )
+    /*if(codebook.length()-1 > binMessage.length() -1 )
     {
       endIndex = binMessage.length() - 1;
-    }
+    }*/
 
   //STEP 3: SEGMENT OFF CODEBOOK SIZED PIECE
     while(binMessage.length() - 1 > endIndex)
     {
       System.out.println("in the segmenter");
       binMessageSeg = binMessage.substring(startIndex, endIndex);
-
+      System.out.println("startIndex: " + startIndex + "        endIndex: "
+                    + endIndex);
       for(int i = 0; i<binMessageSeg.length(); i++)
       {
         if(codebook.charAt(i) == binMessageSeg.charAt(i))
@@ -56,7 +53,7 @@ public class OldXOR
         }
       }//for
 
-      //Update Indexes to move to next section of binMessage
+      //Update Indexes to move to next FULL section of binMessage
       startIndex = endIndex + 1;
       endIndex = startIndex + segLength - 1;
       piecesUsed++;
@@ -66,6 +63,9 @@ public class OldXOR
     //endIndex = binMessage.length() - 1;
 
     //STEP 4: ENCODE BINARY MESSAGE SEGMENT
+   System.out.println("startIndex: " + startIndex + "        endIndex: "
+                  + endIndex);
+    endIndex = binMessage.length() - 1;
     binMessageSeg = binMessage.substring(startIndex, endIndex);
 
       for(int i = 0; i<binMessageSeg.length(); i++)
