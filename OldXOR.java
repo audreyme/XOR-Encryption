@@ -2,12 +2,12 @@ import java.io.*;
 import java.lang.*;
 import java.math.BigInteger;
 
-public class XOREncryption
+public class OldXOR
 {
   public static void main(String [] args) throws Exception
   {
 
-    String codebook = new BigInteger("audrey ".getBytes()).toString(2);
+    String codebook = new BigInteger("AUDREY".getBytes()).toString(2);
     final int segLength = codebook.length();
     int piecesUsed  = 0;
     int startIndex = 0;
@@ -19,6 +19,8 @@ public class XOREncryption
    // String encryptedMessage = "";
     String binEncryptedMessage = "";
 
+
+
   //STEP 1
     BufferedReader inFromUser =
       new BufferedReader(new InputStreamReader(System.in));
@@ -27,20 +29,19 @@ public class XOREncryption
 
     message = inFromUser.readLine();
 
-  //STEP 2.
+  //STEP 2: TRANSLATE INTO BYTES
     binMessage = new BigInteger(message.getBytes()).toString(2);
     //System.out.println(binaryMessage);
 
-   //determine endIndex
-    if(codebook.length()-1 > binMessage.length())
+    if(codebook.length()-1 > binMessage.length() -1 )
     {
       endIndex = binMessage.length() - 1;
     }
 
-  //System.out.println("endIndex: " + (endIndex)       + "message length: "+ binMessage.length()-1);
-  //STEP 3
-    while(binMessage.length() - 1 > endIndex )
+  //STEP 3: SEGMENT OFF CODEBOOK SIZED PIECE
+    while(binMessage.length() - 1 > endIndex)
     {
+      System.out.println("in the segmenter");
       binMessageSeg = binMessage.substring(startIndex, endIndex);
 
       for(int i = 0; i<binMessageSeg.length(); i++)
@@ -62,15 +63,18 @@ public class XOREncryption
 
     }//while
 
-    endIndex = binMessage.length() - 1;
+    //endIndex = binMessage.length() - 1;
 
+    //STEP 4: ENCODE BINARY MESSAGE SEGMENT
     binMessageSeg = binMessage.substring(startIndex, endIndex);
 
-       for(int i = 0; i<binMessageSeg.length(); i++)
+      for(int i = 0; i<binMessageSeg.length(); i++)
       {
+        System.out.println(i);
         if(codebook.charAt(i) == binMessageSeg.charAt(i))
         {
           binEncryptedMessage = binEncryptedMessage + '0';
+
         }
         else
         {
@@ -81,7 +85,6 @@ public class XOREncryption
   //STEP 7
   String encryptedMessage = new String(new BigInteger(binEncryptedMessage, 2).toByteArray());
 
-  System.out.println("Binary Encrypted Message: " + binEncryptedMessage);
   System.out.println("Encrypted Message: " + encryptedMessage);
 
 
@@ -90,7 +93,13 @@ public class XOREncryption
     String newMessage = "";
     startIndex = 0;
     endIndex  = codebook.length() - 1;
-    System.out.println("");
+
+    if(codebook.length()-1 > binMessage.length() -1 )
+    {
+      endIndex = binMessage.length() - 1;
+    }
+
+
     String eMessage = new BigInteger(message.getBytes()).toString(2);
     String binEncryptedMessageSeg = eMessage.substring(startIndex, endIndex);
 
@@ -133,7 +142,7 @@ public class XOREncryption
         }
       }//for
 
-    String decryptedMessage = new String(new BigInteger(eMessage, 2).toByteArray());
+  String decryptedMessage = new String(new BigInteger(eMessage, 2).toByteArray());
     System.out.println("Decrypted message: " + decryptedMessage);
   }//main
 }//class
